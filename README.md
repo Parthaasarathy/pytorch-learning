@@ -242,6 +242,54 @@ Terminology:
 - Push: Upload local commits to GitHub
 - Remote: The cloud version of the repository
 
+============================================================
+11. Store Trained Models in GitHub Using Git LFS
+============================================================
+
+Step 1: Install Git LFS (one time)
+----------------------------------
+brew install git-lfs
+git lfs install
+
+Step 2: Tell Git LFS to track all .pth model files
+--------------------------------------------------
+git lfs track "*.pth"
+git add .gitattributes
+git commit -m "Configure Git LFS for model files"
+git push origin main
+
+Step 3: Move your trained model into the models folder
+-------------------------------------------------------
+mv ~/model.pth models/model.pth
+
+Step 4: Force-add the model (because /models is in .gitignore)
+--------------------------------------------------------------
+git add -f models/model.pth
+git commit -m "Add trained model via Git LFS"
+git push origin main
+
+Your model is now safely stored on GitHub using Git LFS.
+
+
+============================================================
+12. Run Your Training Script From the Terminal
+============================================================
+
+Step 1: Activate the conda environment
+--------------------------------------
+conda activate torch-env
+
+Step 2: Run the training script
+-------------------------------
+python3 scripts/fashion_mnist_train.py --epochs 5 --batch-size 64
+
+The script will:
+- download FashionMNIST
+- train the model
+- save checkpoints to:   models/checkpoint_epochN.pth
+- save final model to:   models/model_final.pth
+
+
 ------------------------------------------------------------
 Summary of Key Full Forms and Concepts
 ------------------------------------------------------------
